@@ -1,0 +1,14 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/shareFragment">
+
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.example.alle_assignment.view.fragment.ShareFragment"
+        android:label="Share" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.alle_assignment.view.fragment.InfoFragment"
+        android:label="Info" />
+</navigation>
