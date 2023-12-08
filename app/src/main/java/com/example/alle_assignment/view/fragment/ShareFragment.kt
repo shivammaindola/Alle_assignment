@@ -82,26 +82,31 @@ class ShareFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             sharedViewModel.syncGalleryImages()
+            binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+            // Restore the selected item position
+            (binding.recyclerView.adapter as? ImageAdapter)?.let { adapter ->
+                adapter.selectedItemPosition = selectedPosition
+                adapter.notifyDataSetChanged()
+            }
 
         } else {
             binding.progressBar.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
             binding.imageView.visibility = View.VISIBLE
             Toast.makeText(context,"Please provide the permissions",Toast.LENGTH_LONG).show()
+
         }
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
-        // Restore the selected item position
-        (binding.recyclerView.adapter as? ImageAdapter)?.let { adapter ->
-            adapter.selectedItemPosition = selectedPosition
-            adapter.notifyDataSetChanged()
-        }
+
     }
 
     override fun onPause() {
         super.onPause()
         // Save the RecyclerView state
         recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
-        // Save the selected item position
-        selectedPosition = (binding.recyclerView.adapter as ImageAdapter).selectedItemPosition
+
+        // Check if the adapter is not null before casting
+        if (binding.recyclerView.adapter is ImageAdapter) {
+            selectedPosition = (binding.recyclerView.adapter as ImageAdapter).selectedItemPosition
+        }
     }
 }
